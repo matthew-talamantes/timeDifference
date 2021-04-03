@@ -55,9 +55,20 @@ def validateInput(timeString):
             return False
         itemList = item.split('-')
 
+        # If the second time is less than first, assume that it is passed 12
+        if itemList[0][-2::] != 'am' and itemList[0][-2::] != 'pm' and \
+            itemList[1][-2::] != 'am' and itemList[1][-2::] != 'pm':
+            firstTime = itemList[0].split(':')
+            secondTime = itemList[1].split(':')
+            firstHour = int(firstTime[0][0:2:])
+            secondHour = int(secondTime[0][0:2:])
+            if secondHour <= firstHour:
+                itemList[0] += 'am'
+                itemList[1] += 'pm'
+
         # Check if minutes included, if not set to #:00.
         timeIndex = 0
-        for time in itemList:
+        for time in itemList: 
             if ':' not in time:
                 
                 if time[-2::] == 'pm' or time[-2::] == 'am':
